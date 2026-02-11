@@ -17,7 +17,7 @@
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric::metric_impl {
+namespace analyser::metric::metric_impl {
 std::string NamingStyleMetric::Name() const { return kName; }
 
 MetricResult::ValueType NamingStyleMetric::CalculateImpl(const function::Function &f) const {
@@ -57,4 +57,4 @@ MetricResult::ValueType NamingStyleMetric::CalculateImpl(const function::Functio
     return "Lower Case";
 }
 
-}  // namespace analyzer::metric::metric_impl
+}  // namespace analyser::metric::metric_impl

@@ -27,7 +27,7 @@
 #include "metric_impl/metrics.hpp"
 
 int main(int argc, char *argv[]) {
-    analyzer::cmd::ProgramOptions options;
+    analyser::cmd::ProgramOptions options;
     if (!options.Parse(argc, argv))
         return 1;
     using namespace analyser::metric::metric_impl;

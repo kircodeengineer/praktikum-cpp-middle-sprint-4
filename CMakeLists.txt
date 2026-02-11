@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(analyzer VERSION 1.0.0 LANGUAGES CXX)
+project(analyser VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -12,11 +12,11 @@ find_package(Boost REQUIRED COMPONENTS program_options)
 
 include_directories(PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-# Сначала настраиваем библиотеки, которые будут подключаться к analyzer
+# Сначала настраиваем библиотеки, которые будут подключаться к analyser
 add_subdirectory(src)
 
-# Настраиваем сборку основного приложения analyzer
-set(target analyzer)
+# Настраиваем сборку основного приложения analyser
+set(target analyser)
 add_executable(${target} main.cpp)
 
 target_link_libraries(${target} 
@@ -27,7 +27,7 @@ target_link_libraries(${target}
         #range-v3::range-v3
 )
 
-# BUILD_INTERFACE автоматически подключает include-пути всех библиотек, указанных в target_link_libraries для analyzer
+# BUILD_INTERFACE автоматически подключает include-пути всех библиотек, указанных в target_link_libraries для analyser
 target_include_directories(${target}
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-namespace analyzer::metric::metric_impl {
+namespace analyser::metric::metric_impl {
 
 // здесь ваш код
 
-}  // namespace analyzer::metric::metric_impl
+}  // namespace analyser::metric::metric_impl

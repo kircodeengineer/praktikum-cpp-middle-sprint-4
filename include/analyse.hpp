@@ -22,7 +22,7 @@
 #include "metric.hpp"
 #include "metric_accumulator.hpp"
 
-namespace analyzer {
+namespace analyser {
 
 namespace rv = std::ranges::views;
 namespace rs = std::ranges;
@@ -39,12 +39,14 @@ namespace rs = std::ranges;
  * 6. Возвращает вектор пар: (функция, результаты её метрик).
  */
 auto AnalyseFunctions(const std::vector<std::string> &files,
-                      const analyzer::metric::MetricExtractor &metric_extractor) {
+                      const analyser::metric::MetricExtractor &metric_extractor) {
     // здесь ваш код
+    std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>> result;
+    return result;
 }
 
 /**
- * 
+ *
  * @brief Группирует результаты анализа по классам.
  *
  * Эта функция:
@@ -63,6 +65,8 @@ auto AnalyseFunctions(const std::vector<std::string> &files,
  */
 auto SplitByClasses(const auto &analysis) {
     // здесь ваш код
+    std::vector<std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>> result;
+    return result;
 }
 
 /**
@@ -75,6 +79,8 @@ auto SplitByClasses(const auto &analysis) {
  */
 auto SplitByFiles(const auto &analysis) {
     // здесь ваш код
+    std::vector<std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>> result;
+    return result;
 }
 
 /**
@@ -86,8 +92,8 @@ auto SplitByFiles(const auto &analysis) {
  * - Передаёт результаты метрик (`elem.second`) в аккумулятор через `AccumulateNextFunctionResults`.
  */
 void AccumulateFunctionAnalysis(const auto &analysis,
-                                const analyzer::metric_accumulator::MetricsAccumulator &accumulator) {
+                                const analyser::metric_accumulator::MetricsAccumulator &accumulator) {
     // здесь ваш код
 }
 
-}  // namespace analyzer
+}  // namespace analyser

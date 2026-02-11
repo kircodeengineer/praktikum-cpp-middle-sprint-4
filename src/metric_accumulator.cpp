@@ -18,7 +18,7 @@
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric_accumulator {
+namespace analyser::metric_accumulator {
 /**
  * @brief Накапливает результаты метрик для одной функции.
  *
@@ -44,4 +44,4 @@ void MetricsAccumulator::ResetAccumulators() {
     // здесь ваш код
 }
 
-}  // namespace analyzer::metric_accumulator
+}  // namespace analyser::metric_accumulator

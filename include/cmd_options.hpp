@@ -5,7 +5,7 @@
 
 #include <boost/program_options.hpp>
 
-namespace analyzer::cmd {
+namespace analyser::cmd {
 
 class ProgramOptions {
 public:
@@ -21,4 +21,4 @@ private:
     boost::program_options::options_description desc_;
 };
 
-}  // namespace analyzer::cmd
+}  // namespace analyser::cmd

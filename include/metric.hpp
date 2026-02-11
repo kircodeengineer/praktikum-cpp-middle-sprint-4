@@ -23,11 +23,11 @@ namespace fs = std::filesystem;
 namespace rv = std::ranges::views;
 namespace rs = std::ranges;
 
-namespace analyzer::metric {
+namespace analyser::metric {
 
 struct MetricResult {
-    using ValueType = int;
-    // using ValueType = std::variant<int, std::string>; // если захотите реализовывать метрику
+    // using ValueType = int;
+    using ValueType = std::variant<int, std::string>;  // если захотите реализовывать метрику
     // naming style
     std::string metric_name;  // Название метрики
     ValueType value;          // Значение метрики
@@ -53,4 +53,4 @@ struct MetricExtractor {
     std::vector<std::unique_ptr<IMetric>> metrics;
 };
 
-}  // namespace analyzer::metric
+}  // namespace analyser::metric

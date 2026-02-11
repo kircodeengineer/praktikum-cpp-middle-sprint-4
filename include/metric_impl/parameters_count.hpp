@@ -14,7 +14,7 @@
 
 #include "metric.hpp"
 
-namespace analyzer::metric::metric_impl {
+namespace analyser::metric::metric_impl {
 
 struct CountParametersMetric final : public IMetric {
     static inline const std::string kName = "Parameters count";
@@ -22,6 +22,7 @@ struct CountParametersMetric final : public IMetric {
 protected:
     std::string Name() const override;
 
-    MetricResult::ValueType CalculateImpl(const function::Function& f) const override;};
+    MetricResult::ValueType CalculateImpl(const function::Function &f) const override;
+};
 
-}  // namespace analyzer::metric::metric_impl
+}  // namespace analyser::metric::metric_impl
