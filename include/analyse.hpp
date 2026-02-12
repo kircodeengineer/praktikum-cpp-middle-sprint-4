@@ -40,17 +40,13 @@ namespace rs = std::ranges;
  */
 auto AnalyseFunctions(const std::vector<std::string> &files,
                       const analyser::metric::MetricExtractor &metric_extractor) {
-    std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>> result;
-    for (const auto &file : files) {
-        auto a_file{analyser::file::File{file}};
-        analyser::function::FunctionExtractor extr;
-        for (const auto &func : extr.Get(a_file)) {
-            result.push_back({func, metric_extractor.Get(func)});
-        }
-    }
-    // здесь ваш код
-
-    return result;
+    return files | std::views::transform([&](const auto &file) {
+               analyser::function::FunctionExtractor func_extr;
+               return func_extr.Get(file) | std::views::transform([&](const auto &func) {
+                          return std::pair{func, metric_extractor.Get(func)};
+                      });
+           }) |
+           std::views::join;
 }
 
 /**
