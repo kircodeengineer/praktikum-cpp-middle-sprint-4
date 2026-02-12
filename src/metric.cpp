@@ -20,8 +20,7 @@
 
 #include "function.hpp"
 
-// debug
-#include <print>
+
 namespace analyser::metric {
 void MetricExtractor::RegisterMetric(std::unique_ptr<IMetric> metric) { metrics.push_back(std::move(metric)); }
 
@@ -32,7 +31,6 @@ void MetricExtractor::RegisterMetric(std::unique_ptr<IMetric> metric) { metrics.
  * к переданной функции `func` и собирает результаты в вектор.
  */
 MetricResults MetricExtractor::Get(const function::Function &func) const {
-    // здесь ваш код
     return std::vector<MetricResult>(std::from_range, metrics | std::views::transform([&func](const auto &metric) {
                                                           return metric->Calculate(func);
                                                       }));

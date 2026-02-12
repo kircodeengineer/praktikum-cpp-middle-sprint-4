@@ -18,9 +18,6 @@
 #include <variant>
 #include <vector>
 
-// debug
-#include <print>
-
 namespace analyser::metric::metric_impl {
 std::string CodeLinesCountMetric::Name() const { return kName; }
 
