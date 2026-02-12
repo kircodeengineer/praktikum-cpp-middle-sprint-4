@@ -40,13 +40,14 @@ namespace rs = std::ranges;
  */
 auto AnalyseFunctions(const std::vector<std::string> &files,
                       const analyser::metric::MetricExtractor &metric_extractor) {
-    return files | std::views::transform([&](const auto &file) {
-               analyser::function::FunctionExtractor func_extr;
-               return func_extr.Get(file) | std::views::transform([&](const auto &func) {
-                          return std::pair{func, metric_extractor.Get(func)};
-                      });
-           }) |
-           std::views::join;
+    auto transformed{files | std::views::transform([&](const auto &file) {
+                         analyser::function::FunctionExtractor func_extr;
+                         return func_extr.Get(file) | std::views::transform([&](const auto &func) {
+                                    return std::pair{func, metric_extractor.Get(func)};
+                                });
+                     })};
+
+    return transformed | std::views::join | std::ranges::to<std::vector>();
 }
 
 /**
@@ -68,9 +69,19 @@ auto AnalyseFunctions(const std::vector<std::string> &files,
  * действительно исчезают из результата.
  */
 auto SplitByClasses(const auto &analysis) {
-    // здесь ваш код
-    std::vector<std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>> result;
-    return result;
+    return analysis | std::views::filter([](const auto &pair) {
+               const auto &func{std::get<0>(pair)};
+               return func.class_name.has_value();
+           }) |
+           std::ranges::to<std::vector>() | std::views::chunk_by([](const auto &left, const auto &right) {
+               const auto &left_func{std::get<0>(left)};
+               const auto &right_func{std::get<0>(right)};
+               return left_func.class_name == right_func.class_name;
+           }) |
+           std::views::transform([](const auto &chunk) {
+               return std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>(
+                   chunk.begin(), chunk.end());
+           });
 }
 
 /**
