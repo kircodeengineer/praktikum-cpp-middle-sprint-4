@@ -93,9 +93,15 @@ auto SplitByClasses(const auto &analysis) {
  * - Использует `chunk_by`, поэтому **порядок функций в `analysis` должен быть по файлам**.
  */
 auto SplitByFiles(const auto &analysis) {
-    // здесь ваш код
-    std::vector<std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>> result;
-    return result;
+    return analysis | std::views::chunk_by([](const auto &left, const auto &right) {  // нет фильтрации
+               const auto &left_func{std::get<0>(left)};
+               const auto &right_func{std::get<0>(right)};
+               return left_func.filename == right_func.filename;  // прямое сравнение строк
+           }) |
+           std::views::transform([](const auto &chunk) {
+               return std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>(
+                   chunk.begin(), chunk.end());
+           });
 }
 
 /**
