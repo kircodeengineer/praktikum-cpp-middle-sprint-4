@@ -1,4 +1,5 @@
 #include "metric_impl/code_lines_count.hpp"
+#include <utils.hpp>
 
 #include <unistd.h>
 
@@ -17,6 +18,9 @@
 #include <variant>
 #include <vector>
 
+// debug
+#include <print>
+
 namespace analyser::metric::metric_impl {
 std::string CodeLinesCountMetric::Name() const { return kName; }
 
@@ -29,7 +33,7 @@ MetricResult::ValueType CodeLinesCountMetric::CalculateImpl(const function::Func
     auto line_number = [&](int start_pos) {
         size_t line_pos = function_ast.find("[", start_pos);
         size_t comma_pos = function_ast.find(",", line_pos);
-        return std::stoi(function_ast.substr(line_pos + 1, comma_pos - line_pos - 1));
+        return ToInt(function_ast.substr(line_pos + 1, comma_pos - line_pos - 1));
     };
     // Определяем начальную и конечную строки тела функции:
     // - начальная строка берётся из корневого узла функции (первое вхождение "[")
@@ -55,15 +59,10 @@ MetricResult::ValueType CodeLinesCountMetric::CalculateImpl(const function::Func
 
         return node_type != "comment";
     };
-    // === ВАШ КОД ДОЛЖЕН БЫТЬ ЗДЕСЬ ===
-    //
-    // Цель: подсчитать количество строк в диапазоне [start_line + 1, end_line],
-    // которые действительно содержат код (а не только комментарии или пустые строки).
-    //
-    // Почему start_line + 1?
-    // Потому что первая строка — это строка с объявлением функции (def ...),
-    // а тело функции начинается со следующей строки (обычно с отступа). std::views::filter([&](int line) { return
-    // is_code_line(line); })));
-}
 
+    auto count{static_cast<int>(
+        std::ranges::distance(std::views::iota(start_line + 1, end_line + 1) | std::views::filter(is_code_line)))};
+
+    return MetricResult::ValueType{count};
+}
 }  // namespace analyser::metric::metric_impl
