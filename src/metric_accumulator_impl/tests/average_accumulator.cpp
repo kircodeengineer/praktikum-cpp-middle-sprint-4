@@ -50,9 +50,8 @@ TEST(AverageAccumulatorTest, ZeroCount) {
 
 TEST(AverageAccumulatorTest, MultipleAccumulate) {
     AverageAccumulator accumulator;
-    for (int i = 1; i <= 10; ++i) {
-        accumulator.Accumulate(metric::MetricResult{"", i});
-    }
+    std::ranges::for_each(std::views::iota(1, 11),
+                          [&accumulator](int i) { accumulator.Accumulate(metric::MetricResult{"", i}); });
 
     accumulator.Finalize();
     EXPECT_DOUBLE_EQ(accumulator.Get(), 5.5);
