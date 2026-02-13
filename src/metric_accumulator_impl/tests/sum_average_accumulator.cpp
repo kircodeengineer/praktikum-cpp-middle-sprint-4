@@ -31,7 +31,7 @@ TEST_F(SumAverageAccumulatorTest, AccumulateMultipleValuesGetReturnsCorrectResul
     EXPECT_DOUBLE_EQ(20.0, result.average);
 }
 
-TEST_F(SumAverageAccumulatorTest, AccumulateNegativeValues_GetReturnsCorrectResult) {
+TEST_F(SumAverageAccumulatorTest, AccumulateNegativeValuesGetReturnsCorrectResult) {
     accumulator.Accumulate(metric::MetricResult{"", -5});
     accumulator.Accumulate(metric::MetricResult{"", -10});
     accumulator.Finalize();
