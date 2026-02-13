@@ -19,7 +19,6 @@
 #include <print>
 namespace analyser::metric::metric_impl {
 std::string CyclomaticComplexityMetric::Name() const { return kName; }
-
 MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function::Function &f) const {
     // Получаем строковое представление AST (абстрактного синтаксического дерева) функции.
     // Это S-выражение, сгенерированное утилитой tree-sitter, например:
@@ -45,18 +44,12 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
         "assert",                  // assert
         "conditional_expression",  // для тернарного оператора
     };
+    auto all_tokens{complexity_nodes | std::views::transform([&](const auto &node) {
+                        return function_ast | std::views::split(node) | std::views::drop(1);
+                    }) |
+                    std::views::join};
 
-    auto result{
-        1 + std::ranges::fold_left(complexity_nodes | std::views::transform([&function_ast](std::string_view pattern) {
-                                       int count{};
-                                       size_t pos{};
-                                       while ((pos = function_ast.find(pattern, pos)) != std::string::npos) {
-                                           count++;
-                                           pos += pattern.size();
-                                       }
-                                       return count;
-                                   }),
-                                   0, std::plus<>{})};
-    return result;
+    auto count{std::ranges::distance(all_tokens)};
+    return 1 + static_cast<int>(count);
 }
 }  // namespace analyser::metric::metric_impl
