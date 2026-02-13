@@ -6,7 +6,7 @@
 namespace analyser::metric::metric_impl {
 using namespace std::literals;
 
-void CommonCodeLinesCountTest(const std::string &file_name, int etalon_value) {
+void CommonCodeLinesCountMetricTest(const std::string &file_name, int etalon_value) {
     function::Function test_func;
     file::File file{file_name};
     test_func.ast = file.ast;
@@ -15,24 +15,24 @@ void CommonCodeLinesCountTest(const std::string &file_name, int etalon_value) {
     EXPECT_EQ(std::get<int>(result.value), etalon_value);
 }
 
-TEST(CodeLinesCountTest, Comments) { CommonCodeLinesCountTest("comments.py"s, 3); }
+TEST(CodeLinesCountMetricTest, Comments) { CommonCodeLinesCountMetricTest("comments.py"s, 3); }
 
-TEST(CodeLinesCountTest, Exception) { CommonCodeLinesCountTest("exceptions.py"s, 8); }
+TEST(CodeLinesCountMetricTest, Exception) { CommonCodeLinesCountMetricTest("exceptions.py"s, 8); }
 
-TEST(CodeLinesCountTest, If) { CommonCodeLinesCountTest("if.py"s, 3); }
+TEST(CodeLinesCountMetricTest, If) { CommonCodeLinesCountMetricTest("if.py"s, 3); }
 
-TEST(CodeLinesCountTest, Loops) { CommonCodeLinesCountTest("loops.py"s, 6); }
+TEST(CodeLinesCountMetricTest, Loops) { CommonCodeLinesCountMetricTest("loops.py"s, 6); }
 
-TEST(CodeLinesCountTest, Lines) { CommonCodeLinesCountTest("many_lines.py"s, 11); }
+TEST(CodeLinesCountMetricTest, Lines) { CommonCodeLinesCountMetricTest("many_lines.py"s, 11); }
 
-TEST(CodeLinesCountTest, ManyParameters) { CommonCodeLinesCountTest("many_parameters.py"s, 1); }
+TEST(CodeLinesCountMetricTest, ManyParameters) { CommonCodeLinesCountMetricTest("many_parameters.py"s, 1); }
 
-TEST(CodeLinesCountTest, MatchCase) { CommonCodeLinesCountTest("match_case.py"s, 7); }
+TEST(CodeLinesCountMetricTest, MatchCase) { CommonCodeLinesCountMetricTest("match_case.py"s, 7); }
 
-TEST(CodeLinesCountTest, NestedIf) { CommonCodeLinesCountTest("nested_if.py"s, 9); }
+TEST(CodeLinesCountMetricTest, NestedIf) { CommonCodeLinesCountMetricTest("nested_if.py"s, 9); }
 
-TEST(CodeLinesCountTest, Simple) { CommonCodeLinesCountTest("simple.py"s, 5); }
+TEST(CodeLinesCountMetricTest, Simple) { CommonCodeLinesCountMetricTest("simple.py"s, 5); }
 
-TEST(CodeLinesCountTest, Ternary) { CommonCodeLinesCountTest("ternary.py"s, 1); }
+TEST(CodeLinesCountMetricTest, Ternary) { CommonCodeLinesCountMetricTest("ternary.py"s, 1); }
 
 }  // namespace analyser::metric::metric_impl
