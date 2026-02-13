@@ -18,7 +18,7 @@
 
 #include "metric.hpp"
 
-namespace analyzer::metric::metric_impl {
+namespace analyser::metric::metric_impl {
 
 struct CyclomaticComplexityMetric : IMetric {
     static inline const std::string kName = "Cyclomatic Complexity";
@@ -26,6 +26,7 @@ struct CyclomaticComplexityMetric : IMetric {
 protected:
     std::string Name() const override;
 
-    MetricResult::ValueType CalculateImpl(const function::Function& f) const override;};
+    MetricResult::ValueType CalculateImpl(const function::Function &f) const override;
+};
 
-}  // namespace analyzer::metric::metric_impl
+}  // namespace analyser::metric::metric_impl

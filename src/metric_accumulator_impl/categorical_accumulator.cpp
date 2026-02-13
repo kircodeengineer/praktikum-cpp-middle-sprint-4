@@ -17,7 +17,7 @@
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric_accumulator::metric_accumulator_impl {
+namespace analyser::metric_accumulator::metric_accumulator_impl {
 
 void CategoricalAccumulator::Accumulate(const metric::MetricResult &metric_result) {
     categories_freq[std::get<std::string>(metric_result.value)]++;
@@ -35,4 +35,4 @@ const std::unordered_map<std::string, int> &CategoricalAccumulator::Get() const 
         throw std::runtime_error("CategoricalAccumulator::Get() called before Finalize()");
     return categories_freq;
 }
-}  // namespace analyzer::metric_accumulator::metric_accumulator_impl
+}  // namespace analyser::metric_accumulator::metric_accumulator_impl

@@ -18,7 +18,7 @@
 
 #include "metric_accumulator.hpp"
 
-namespace analyzer::metric_accumulator::metric_accumulator_impl {
+namespace analyser::metric_accumulator::metric_accumulator_impl {
 
 struct SumAverageAccumulator : public IAccumulator {
     struct SumAverage {
@@ -40,4 +40,4 @@ private:
     double average = 0;
 };
 
-}  // namespace analyzer::metric_accumulator::metric_accumulator_impl
+}  // namespace analyser::metric_accumulator::metric_accumulator_impl

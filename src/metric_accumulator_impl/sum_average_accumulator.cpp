@@ -17,7 +17,7 @@
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric_accumulator::metric_accumulator_impl {
+namespace analyser::metric_accumulator::metric_accumulator_impl {
 
 void SumAverageAccumulator::Accumulate(const metric::MetricResult &metric_result) {
     sum += std::get<int>(metric_result.value);
@@ -40,4 +40,4 @@ SumAverageAccumulator::SumAverage SumAverageAccumulator::Get() const {
         throw std::runtime_error("CategoricalAccumulator::Get() called before Finalize()");
     return {sum, average};
 }
-}  // namespace analyzer::metric_accumulator::metric_accumulator_impl
+}  // namespace analyser::metric_accumulator::metric_accumulator_impl

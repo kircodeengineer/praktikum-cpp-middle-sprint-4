@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 
-namespace analyzer::file {
+namespace analyser::file {
 
 struct File {
     static inline const std::string command_prefix =
@@ -22,4 +22,4 @@ private:
     std::string GetAst(const std::string &filename);
 };
 
-}  // namespace analyzer::file
+}  // namespace analyser::file
