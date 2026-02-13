@@ -6,7 +6,7 @@ namespace analyser::metric::metric_impl {
 
 using namespace std::literals;
 
-void CyclomaticComplexityMetricTest(const std::string &file_name, int etalon_value) {
+void CommonCyclomaticComplexityMetricTest(const std::string &file_name, int etalon_value) {
     function::Function test_func;
     file::File file{file_name};
     test_func.ast = file.ast;
@@ -15,24 +15,24 @@ void CyclomaticComplexityMetricTest(const std::string &file_name, int etalon_val
     EXPECT_EQ(std::get<int>(result.value), etalon_value);
 }
 
-TEST(CyclomaticComplexityMetricTest, Comments) { CyclomaticComplexityMetricTest("comments.py"s, 1); }
+TEST(CyclomaticComplexityMetricTest, Comments) { CommonCyclomaticComplexityMetricTest("comments.py"s, 1); }
 
-TEST(CyclomaticComplexityMetricTest, Exception) { CyclomaticComplexityMetricTest("exceptions.py"s, 4); }
+TEST(CyclomaticComplexityMetricTest, Exception) { CommonCyclomaticComplexityMetricTest("exceptions.py"s, 4); }
 
-TEST(CyclomaticComplexityMetricTest, If) { CyclomaticComplexityMetricTest("if.py"s, 2); }
+TEST(CyclomaticComplexityMetricTest, If) { CommonCyclomaticComplexityMetricTest("if.py"s, 2); }
 
-TEST(CyclomaticComplexityMetricTest, Loops) { CyclomaticComplexityMetricTest("loops.py"s, 4); }
+TEST(CyclomaticComplexityMetricTest, Loops) { CommonCyclomaticComplexityMetricTest("loops.py"s, 4); }
 
-TEST(CyclomaticComplexityMetricTest, Lines) { CyclomaticComplexityMetricTest("many_lines.py"s, 2); }
+TEST(CyclomaticComplexityMetricTest, Lines) { CommonCyclomaticComplexityMetricTest("many_lines.py"s, 2); }
 
-TEST(CyclomaticComplexityMetricTest, ManyParameters) { CyclomaticComplexityMetricTest("many_parameters.py"s, 2); }
+TEST(CyclomaticComplexityMetricTest, ManyParameters) { CommonCyclomaticComplexityMetricTest("many_parameters.py"s, 2); }
 
-TEST(CyclomaticComplexityMetricTest, MatchCase) { CyclomaticComplexityMetricTest("match_case.py"s, 4); }
+TEST(CyclomaticComplexityMetricTest, MatchCase) { CommonCyclomaticComplexityMetricTest("match_case.py"s, 4); }
 
-TEST(CyclomaticComplexityMetricTest, NestedIf) { CyclomaticComplexityMetricTest("nested_if.py"s, 4); }
+TEST(CyclomaticComplexityMetricTest, NestedIf) { CommonCyclomaticComplexityMetricTest("nested_if.py"s, 4); }
 
-TEST(CyclomaticComplexityMetricTest, Simple) { CyclomaticComplexityMetricTest("simple.py"s, 2); }
+TEST(CyclomaticComplexityMetricTest, Simple) { CommonCyclomaticComplexityMetricTest("simple.py"s, 2); }
 
-TEST(CyclomaticComplexityMetricTest, Ternary) { CyclomaticComplexityMetricTest("ternary.py"s, 3); }
+TEST(CyclomaticComplexityMetricTest, Ternary) { CommonCyclomaticComplexityMetricTest("ternary.py"s, 3); }
 
 }  // namespace analyser::metric::metric_impl
