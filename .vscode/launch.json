@@ -7,8 +7,8 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Launch analyzer",
-            "program": "${workspaceFolder}/build/analyzer",
+            "name": "Launch analyser",
+            "program": "${workspaceFolder}/build/analyser",
             "args": [
                 "-f",
                 "files/sample.py"

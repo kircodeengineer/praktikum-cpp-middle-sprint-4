@@ -22,7 +22,7 @@
 #include "metric.hpp"
 #include "metric_accumulator.hpp"
 
-namespace analyzer {
+namespace analyser {
 
 namespace rv = std::ranges::views;
 namespace rs = std::ranges;
@@ -39,12 +39,19 @@ namespace rs = std::ranges;
  * 6. Возвращает вектор пар: (функция, результаты её метрик).
  */
 auto AnalyseFunctions(const std::vector<std::string> &files,
-                      const analyzer::metric::MetricExtractor &metric_extractor) {
-    // здесь ваш код
+                      const analyser::metric::MetricExtractor &metric_extractor) {
+    auto transformed{files | std::views::transform([&](const auto &file) {
+                         analyser::function::FunctionExtractor func_extr;
+                         return func_extr.Get(file) | std::views::transform([&](const auto &func) {
+                                    return std::pair{func, metric_extractor.Get(func)};
+                                });
+                     })};
+
+    return transformed | std::views::join | std::ranges::to<std::vector>();
 }
 
 /**
- * 
+ *
  * @brief Группирует результаты анализа по классам.
  *
  * Эта функция:
@@ -62,7 +69,19 @@ auto AnalyseFunctions(const std::vector<std::string> &files,
  * действительно исчезают из результата.
  */
 auto SplitByClasses(const auto &analysis) {
-    // здесь ваш код
+    return analysis | std::views::filter([](const auto &pair) {
+               const auto &func{std::get<0>(pair)};
+               return func.class_name.has_value();
+           }) |
+           std::ranges::to<std::vector>() | std::views::chunk_by([](const auto &left, const auto &right) {
+               const auto &left_func{std::get<0>(left)};
+               const auto &right_func{std::get<0>(right)};
+               return left_func.class_name == right_func.class_name;
+           }) |
+           std::views::transform([](const auto &chunk) {
+               return std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>(
+                   chunk.begin(), chunk.end());
+           });
 }
 
 /**
@@ -74,7 +93,15 @@ auto SplitByClasses(const auto &analysis) {
  * - Использует `chunk_by`, поэтому **порядок функций в `analysis` должен быть по файлам**.
  */
 auto SplitByFiles(const auto &analysis) {
-    // здесь ваш код
+    return analysis | std::views::chunk_by([](const auto &left, const auto &right) {  // нет фильтрации
+               const auto &left_func{std::get<0>(left)};
+               const auto &right_func{std::get<0>(right)};
+               return left_func.filename == right_func.filename;  // прямое сравнение строк
+           }) |
+           std::views::transform([](const auto &chunk) {
+               return std::vector<std::pair<analyser::function::Function, analyser::metric::MetricResults>>(
+                   chunk.begin(), chunk.end());
+           });
 }
 
 /**
@@ -86,8 +113,9 @@ auto SplitByFiles(const auto &analysis) {
  * - Передаёт результаты метрик (`elem.second`) в аккумулятор через `AccumulateNextFunctionResults`.
  */
 void AccumulateFunctionAnalysis(const auto &analysis,
-                                const analyzer::metric_accumulator::MetricsAccumulator &accumulator) {
-    // здесь ваш код
+                                const analyser::metric_accumulator::MetricsAccumulator &accumulator) {
+    std::ranges::for_each(analysis,
+                          [&accumulator](const auto &elem) { accumulator.AccumulateNextFunctionResults(elem.second); });
 }
 
-}  // namespace analyzer
+}  // namespace analyser

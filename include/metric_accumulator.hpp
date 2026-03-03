@@ -22,7 +22,7 @@
 namespace rv = std::ranges::views;
 namespace rs = std::ranges;
 
-namespace analyzer::metric_accumulator {
+namespace analyser::metric_accumulator {
 
 struct IAccumulator {
     virtual void Accumulate(const metric::MetricResult &metric_result) = 0;
@@ -43,7 +43,7 @@ struct MetricsAccumulator {
     const Accumulator &GetFinalizedAccumulator(const std::string &metric_name) const {
         auto metric_accululator = accumulators.at(metric_name);
         metric_accululator->Finalize();
-        return dynamic_cast<const Accumulator&>(*metric_accululator);
+        return dynamic_cast<const Accumulator &>(*metric_accululator);
     }
     void AccumulateNextFunctionResults(const std::vector<metric::MetricResult> &metric_results) const;
 
@@ -53,4 +53,4 @@ private:
     std::unordered_map<std::string, std::shared_ptr<IAccumulator>> accumulators;
 };
 
-}  // namespace analyzer::metric_accumulator
+}  // namespace analyser::metric_accumulator

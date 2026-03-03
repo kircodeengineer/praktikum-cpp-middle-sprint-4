@@ -14,7 +14,7 @@
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric::metric_impl {
+namespace analyser::metric::metric_impl {
 std::string CountParametersMetric::Name() const { return kName; }
 
 MetricResult::ValueType CountParametersMetric::CalculateImpl(const function::Function &f) const {
@@ -53,4 +53,4 @@ MetricResult::ValueType CountParametersMetric::CalculateImpl(const function::Fun
     return count;
 }
 
-}  // namespace analyzer::metric::metric_impl
+}  // namespace analyser::metric::metric_impl

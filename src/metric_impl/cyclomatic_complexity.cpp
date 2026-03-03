@@ -2,7 +2,6 @@
 
 #include <unistd.h>
 
-#include <algorithm>
 #include <array>
 #include <cstdio>
 #include <cstdlib>
@@ -10,13 +9,15 @@
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <numeric>
 #include <ranges>
 #include <sstream>
 #include <string>
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric::metric_impl {
+#include <print>
+namespace analyser::metric::metric_impl {
 std::string CyclomaticComplexityMetric::Name() const { return kName; }
 MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function::Function &f) const {
     // Получаем строковое представление AST (абстрактного синтаксического дерева) функции.
@@ -43,27 +44,12 @@ MetricResult::ValueType CyclomaticComplexityMetric::CalculateImpl(const function
         "assert",                  // assert
         "conditional_expression",  // для тернарного оператора
     };
+    auto all_tokens{complexity_nodes | std::views::transform([&](const auto &node) {
+                        return function_ast | std::views::split(node) | std::views::drop(1);
+                    }) |
+                    std::views::join};
 
-    // === ВАШ КОД ДОЛЖЕН БЫТЬ ЗДЕСЬ ===
-    //
-    // Цель: подсчитать, сколько раз в строке `function_ast` встречаются
-    // любые из узлов из `complexity_nodes`.
-    //
-    // Важно:
-    // - Имена узлов уникальны и не являются подстроками других имён, поэтому
-    //   поиск подстроки (например, `"if_statement"`) безопасен.
-    // - Каждое вхождение узла = +1 к сложности.
-    // - В конце к общей сумме нужно прибавить 1 (базовая сложность функции без ветвлений).
-    //
-    // Пример:
-    // Если AST содержит "(if_statement ...) (for_statement ...) (if_statement ...)",
-    // то найдено 3 узла → сложность = 3 + 1 = 4.
-    //
-    // Подсказка:
-    // Можно пройтись по каждому `node_type` из `complexity_nodes` и подсчитать,
-    // сколько раз он встречается в `function_ast`, используя `std::string::find`
-    // в цикле (это допустимо, так как вы работаете со строковым представлением AST,
-    // а не с исходным кодом напрямую).
-
+    auto count{std::ranges::distance(all_tokens)};
+    return 1 + static_cast<int>(count);
 }
-}  // namespace analyzer::metric::metric_impl
+}  // namespace analyser::metric::metric_impl

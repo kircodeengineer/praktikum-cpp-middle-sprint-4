@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-namespace analyzer::file {
+namespace analyser::file {
 
 namespace rv = std::ranges::views;
 namespace rs = std::ranges;
@@ -68,4 +68,4 @@ std::string File::GetAst(const std::string &filename) try {
     throw std::runtime_error("Error while getting ast from " + filename);
 }
 
-}  // namespace analyzer::file
+}  // namespace analyser::file

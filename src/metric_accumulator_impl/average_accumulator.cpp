@@ -17,14 +17,14 @@
 #include <variant>
 #include <vector>
 
-namespace analyzer::metric_accumulator::metric_accumulator_impl {
+namespace analyser::metric_accumulator::metric_accumulator_impl {
 
 void AverageAccumulator::Accumulate(const metric::MetricResult &metric_result) {
     sum += std::get<int>(metric_result.value);
     count++;
 }
 void AverageAccumulator::Finalize() {
-    average = static_cast<double>(sum) / count;
+    average = count != 0 ? static_cast<double>(sum) / static_cast<double>(count) : 0.0;
     is_finalized = true;
 }
 
@@ -40,4 +40,4 @@ double AverageAccumulator::Get() const {
         throw std::runtime_error("AverageAccumulator::Get() called before Finalize()");
     return average;
 }
-}  // namespace analyzer::metric_accumulator::metric_accumulator_impl
+}  // namespace analyser::metric_accumulator::metric_accumulator_impl

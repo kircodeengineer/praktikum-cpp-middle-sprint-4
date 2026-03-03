@@ -84,7 +84,7 @@ printf "\nUSER_UID=${USER_UID=}\nUSER_GID=${USER_GID}\n\n"
 ### Команды для запуска приложения
 
 ```bash
-./build/analyzer -f files/sample.py
+./build/analyser -f files/sample.py
 ```
 
 ### Команда для запуска тестов
